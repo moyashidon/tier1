@@ -45,10 +45,24 @@ function App() {
     });
   };
 
+  // アイテムの名前を更新する処理
+  const handleUpdateItem = (itemId, tier, newName) => {
+    setData(prevData => {
+      const newData = { ...prevData };
+      const itemIndex = newData[tier].findIndex(item => item.id === itemId);
+      
+      if (itemIndex !== -1 && newName.trim()) {
+        newData[tier][itemIndex].name = newName.trim();
+      }
+      
+      return newData;
+    });
+  };
+
   return (
     <div className="App">
       <h1>Tier List Maker</h1>
-      <TierList data={data} onDropItem={handleDropItem} onMove={handleMoveItem} />
+      <TierList data={data} onDropItem={handleDropItem} onMove={handleMoveItem} onUpdateItem={handleUpdateItem} />
     </div>
   );
 }
