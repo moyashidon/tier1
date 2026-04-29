@@ -1,8 +1,7 @@
 // TierRow.jsx
-import TierItem from "../TierItem/TierItem";
-import "./TierRow.css";
+import Item from "./Item";
 
-const TierRow = ({ tier, items, onDropItem }) => {  //tier,items,onDropItemは親から渡された情報
+const TierRow = ({ tier, items, onDropItem, onMove }) => {  //tier,items,onDropItemは親から渡された情報
   const handleDragOver = (e) => {
     e.preventDefault(); //dropを有効にする。
   };
@@ -18,7 +17,7 @@ const TierRow = ({ tier, items, onDropItem }) => {  //tier,items,onDropItemは�
       <div className="tier-label">{tier}</div>
       <div className="tier-items">
         {items.map((item) => (
-          <TierItem key={item.id} item={item} />
+          <Item key={item.id} item={item} fromTier={tier} onMove={onMove} />
         ))}
       </div>
     </div>
