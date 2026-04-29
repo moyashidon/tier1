@@ -1,19 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
-
-function Item({ item, fromTier, onMove }) {
+function Item({ item, fromTier, onUpdateItemName, onDeleteItem }) {
   // item: { id, name, image など想定 }
   // fromTier: 今いるTier（S, A, B...）
-  // onMove: 親から渡される移動処理
+  // onUpdateItemName: 親から渡されるアイテム名更新処理
+  // onDeleteItem: 親から渡されるアイテム削除処理
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(item.name);
 
   const handleDragStart = (e) => {
     e.dataTransfer.effectAllowed = "move";
     e.dataTransfer.setData("itemId", item.id);
   };
 
-  const handleMove = (toTier) => {
-    if (toTier === fromTier) return;
-    onMove(item.id, fromTier, toTier);
+  const handleNameClick = () => {
+    setIsEditing(true);
+    setEditName(item.name);
+  };
+
+  const handleNameSave = () => {
+    if (editName.trim() && editName !== item.name) {
+      onUpdateItemName(item.id, fromTier, editName);
+    }
+    setIsEditing(false);
+  };
+
+  const handleNameCancel = () => {
+    setIsEditing(false);
+    setEditName(item.name);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleNameSave();
+    } else if (e.key === "Escape") {
+      handleNameCancel();
+    }
   };
 
   return (
@@ -23,21 +46,31 @@ function Item({ item, fromTier, onMove }) {
         <img src={item.image} alt={item.name} className="item-image" />
       )}
 
-      {/* 名前 */}
-      <p className="item-name">{item.name}</p>
+      {/* 名前 - 編集可能 */}
+      {isEditing ? (
+        <input
+          type="text"
+          className="item-name-input"
+          value={editName}
+          onChange={(e) => setEditName(e.target.value)}
+          onBlur={handleNameSave}
+          onKeyDown={handleKeyDown}
+          autoFocus
+        />
+      ) : (
+        <p className="item-name" onClick={handleNameClick} title="クリックして名前を変更">
+          {item.name}
+        </p>
+      )}
 
-      {/* 移動ボタン（とりあえず） */}
-      <div className="item-actions">
-        {["S", "A", "B", "C", "pool"].map((tier) => (
-          <button
-            key={tier}
-            onClick={() => handleMove(tier)}
-            disabled={tier === fromTier}
-          >
-            {tier}
-          </button>
-        ))}
-      </div>
+      {/* 削除ボタン */}
+      <button
+        className="item-delete-btn"
+        onClick={() => onDeleteItem(item.id, fromTier)}
+        title="アイテムを削除"
+      >
+        ✕
+      </button>
     </div>
   );
 }
