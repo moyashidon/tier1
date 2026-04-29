@@ -1,13 +1,21 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Nunuto', 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* スプラトゥーン風の背景 */
+  background: linear-gradient(135deg, #00d4aa 0%, #ff6b35 25%, #9b4dca 50%, #00b4d8 75%, #00d4aa 100%);
+  background-size: 400% 400%;
+  min-height: 100vh;
+  animation: splatoonBg 8s ease infinite;
+}
+
+@keyframes splatoonBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Courier New', monospace;
 }
