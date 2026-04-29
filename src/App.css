@@ -1,5 +1,35 @@
+/* 全般のフォント - スプラ風 */
+* {
+  font-family: 'Nunito', 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', sans-serif !important;
+}
+
 .App {
   text-align: center;
+}
+
+/* タイトル */
+.App h1 {
+  font-size: 2.5rem;
+  margin: 20px 0;
+}
+
+.title-splatoon {
+  color: white;
+  -webkit-text-stroke: 1px black;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+}
+
+.title-number {
+  color: #ffd700;
+  font-weight: 900;
+  -webkit-text-stroke: 1px black;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+}
+
+.title-sub {
+  color: white;
+  -webkit-text-stroke: 1px black;
+  text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
 }
 
 .App-logo {
@@ -14,7 +44,9 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* スプラトゥーン風の背景 */
+  background: linear-gradient(135deg, #00d4aa 0%, #ff6b35 25%, #9b4dca 50%, #00b4d8 75%, #00d4aa 100%);
+  background-size: 400% 400%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +54,13 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  animation: splatoonHeader 8s ease infinite;
+}
+
+@keyframes splatoonHeader {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .App-link {
@@ -35,4 +74,176 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Tier List - テーブル形式 */
+.tier-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tier-row {
+  display: flex;
+  align-items: stretch;
+  min-height: 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Tierラベル（左侧） */
+.tier-label {
+  width: 80px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Tierごとの色 */
+.tier-row[data-tier="X"] .tier-label {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.tier-row[data-tier="S+"] .tier-label {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+
+.tier-row[data-tier="S"] .tier-label {
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+}
+
+.tier-row[data-tier="A"] .tier-label {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+}
+
+.tier-row[data-tier="B"] .tier-label {
+  background: linear-gradient(135deg, #4ecdc4, #44a8a0);
+}
+
+.tier-row[data-tier="C"] .tier-label {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+}
+
+.tier-row[data-tier="ブキ"] .tier-label {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+/* アイテム表示エリア */
+.tier-items {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  align-content: flex-start;
+}
+
+/* アイテムカード */
+.item {
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.item:active {
+  cursor: grabbing;
+}
+
+/* Item コンポーネント */
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  cursor: grab;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 80px;
+}
+
+.item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* アイテム名 */
+.item-name {
+  margin: 4px 0;
+  text-align: center;
+  word-break: break-word;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.item-name:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 名前編集 */
+.item-name-edit input {
+  width: 100%;
+  padding: 4px;
+  font-size: 12px;
+  text-align: center;
+  border: 2px solid #ffd700;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+}
+
+/* 移動ボタン */
+.item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.item-actions button {
+  padding: 2px 6px;
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.item-actions button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.item-actions button:disabled,
+.item-actions button.active {
+  background: rgba(255, 255, 255, 0.6);
+  color: #333;
 }

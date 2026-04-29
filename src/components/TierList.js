@@ -1,17 +1,17 @@
 import React from "react";
 import TierRow from "./TierRow";
 
-const TierList = ({ data, onDropItem, onMove }) => {
-  const tiers = ["S", "A", "B", "C"];
+const TierList = ({ data, onDropItem, onMove, onUpdate }) => {
+  const tiers = ["X", "S+", "S", "A", "B", "C"];
 
   return (
     <div className="tier-list">
       {tiers.map((tier) => (
-        <TierRow key={tier} tier={tier} items={data[tier]} onDropItem={onDropItem} onMove={onMove} />
+        <TierRow key={tier} tier={tier} items={data[tier]} onDropItem={onDropItem} onMove={onMove} onUpdate={onUpdate} />
       ))}
 
-      {/* pool（未配置アイテム） */}
-      <TierRow tier="pool" items={data.pool} onDropItem={onDropItem} onMove={onMove} />
+      {/* ブキ（未配置アイテム） */}
+      <TierRow tier="ブキ" items={data["ブキ"]} onDropItem={onDropItem} onMove={onMove} onUpdate={onUpdate} />
     </div>
   );
 };
