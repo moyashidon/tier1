@@ -17,6 +17,8 @@ function App() {
     ]
   });
 
+  const [dragOverTier, setDragOverTier] = useState(null);
+
   // アイテムをティア間で移動する処理
   const handleMoveItem = (itemId, fromTier, toTier) => {
     setData(prevData => {
@@ -37,18 +39,53 @@ function App() {
 
   // ドロップされたアイテムを処理
   const handleDropItem = (itemId, toTier) => {
-    // アイテムの現在の位置を見つけ、移動を実行
-    Object.keys(data).forEach(tier => {
-      if (data[tier].some(item => item.id === parseInt(itemId))) {
-        handleMoveItem(parseInt(itemId), tier, toTier);
+    setData(prevData => {
+      let fromTier = null;
+      let item = null;
+      
+      // アイテムの現在の位置を見つける
+      Object.keys(prevData).forEach(tier => {
+        const found = prevData[tier].find(i => i.id === parseInt(itemId));
+        if (found) {
+          fromTier = tier;
+          item = found;
+        }
+      });
+      
+      if (!fromTier || !item) return prevData;
+      if (fromTier === toTier) return prevData;
+      
+      const newData = {};
+      Object.keys(prevData).forEach(tier => {
+        newData[tier] = [...prevData[tier]];
+      });
+      
+      // 移動元から削除
+      newData[fromTier] = newData[fromTier].filter(i => i.id !== parseInt(itemId));
+      
+      // ID順に挿入
+      const insertIndex = newData[toTier].findIndex(i => i.id > item.id);
+      if (insertIndex === -1) {
+        newData[toTier].push(item);
+      } else {
+        newData[toTier].splice(insertIndex, 0, item);
       }
+      
+      return newData;
     });
   };
 
   return (
     <div className="App">
       <h1>Tier List Maker</h1>
-      <TierList data={data} onDropItem={handleDropItem} onMove={handleMoveItem} />
+      <TierList 
+        data={data} 
+        onDropItem={handleDropItem} 
+        onMove={handleMoveItem}
+        dragOverTier={dragOverTier}
+        onDragEnter={(tier) => setDragOverTier(tier)}
+        onDragLeave={() => setDragOverTier(null)}
+      />
     </div>
   );
 }
